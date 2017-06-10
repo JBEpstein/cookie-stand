@@ -1,77 +1,41 @@
-'use strict'
-
-// function avgHourReport(location) {
-//   for (var i = 600; i <= 2000; i += 100) {
-//     var rand = Math.floor(Math.random() * (location.maxCust - location.minCust + 1)) + location.minCust;
-//     if (i < 1000) {
-//       location.hourReport.push(('0' + i + ' hours:' + rand + 'cookies'))
-//     } else {
-//       location.hourReport.push((i + ' hours:' + rand + 'cookies'))
-//     }
-//   }
-// }
-
-function (minCust, maxCust, aCookieSale) {
-  this.minCust = minCust;
-  this.maxCust = maxCust;
-  this.avgCookieSale = aCookieSale;
+var store = function(location,min,max,avg){
+  this.location = location;
+  this.minCust = min;
+  this.maxCust = max;
+  this.avgCookies = avg;
+  this.hourlySales = function(){
+  return (Math.floor(Math.random() * (this.maxCust - this.minCust + 1)) + this.minCust) * this.avgCookies ;
+  };
 }
 
-function makeRow(item){
-  //Step 1 - create element
-  var newRowEl = document.createElement('tr');
+var firstPike = new store('First Pike',23, 65, 6.3);
+var seaTac = new store('Seatac',3, 24, 1.2);
+var seattleCenter = new store('Seattle Center',11, 38, 3.7);
+var capitolHill = new store('Capital Hill',20, 38, 2.3);
+var alki = new store('Alki', 2, 16, 4.6);
 
-  //Step 2 - Configure/Mutate the ROW element
-    var itemDataEl = document.createElement('td');
-  itemDataEl.textContent = item.name;
-  newRowEl.appendChild(itemDataEl);
+var locations = [firstPike,seaTac,seattleCenter,capitolHill,alki];
 
-  var priceDataEl = document.createElement('td');
-  priceDataEl.textContent = item.price;
-  newRowEl.appendChild(priceDataEl);
+function makeTable(arr) {
+  var fragment = document.createDocumentFragment();
 
-  var colorEl = document.createElement('td');
-  colorEl.textContent = item.color;
-  newRowEl.appendChild(colorEl);
+   for (var i = 0; i < arr.length; i++) {
+        var row = document.createElement('tr');
+        fragment.appendChild(row);
 
-  //Step 3 - Append element to the DOM
-  tableBodyEl.appendChild(newRowEl);
+       for (var j = 0; j < 16; j++) {
+            var cell = document.createElement('td');
+            if(j == 0){
+            cell.appendChild(document.createTextNode(arr[i].location));
+          } else {
+              cell.appendChild(document.createTextNode(arr[i].hourlySales().toFixed(2)));
+          }
+            row.appendChild(cell);
+        }
+    }
+
+   var target = document.getElementById('target');
+    target.appendChild(fragment);
 }
 
-var = firstPike = new store(23, 65, 6.3);
-var = seaTac = new store(3, 24, 1.2);
-var = seattleCenter = new store(11, 38, 3.7);
-var = capitolHill = new store(20, 38, 2.3);
-var = alki = new store(2, 16, 4.6);
-
-
-
-var firstPike = {
-  minCust : 23,
-  maxCust : 65,
-  aCookieSale : 6.3,
-  hourReport: [],
-  report: function(){
-    avgHourReport(firstPike);
-  }
-};
-
-var alkiArr = [];
-
-var alki = {
-  minCust : 2,
-  maxCust : 16,
-  aCookieSale : 4.6,
-  avgCust : ,
-  var hourAvg = alki.avgCust();
-  console.log(hourAvg);
-};
-
-console.log(alkiArr)
-
-
-alki.avgCust = genHourlyCust(alki);
-
-alkiArr.push(alki.avgCust);
-
-console.log(alkiArr);
+makeTable(locations);
