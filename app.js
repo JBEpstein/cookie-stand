@@ -1,18 +1,18 @@
-var store = function(location,min,max,avg){
+function Store (location,min,max,avg){
   this.location = location;
   this.minCust = min;
   this.maxCust = max;
   this.avgCookies = avg;
   this.hourlySales = function(){
-  return (Math.floor(Math.random() * (this.maxCust - this.minCust + 1)) + this.minCust) * this.avgCookies ;
+  return Math.round((Math.floor(Math.random() * (this.maxCust - this.minCust + 1)) + this.minCust) * this.avgCookies) ;
   };
 }
 
-var firstPike = new store('First Pike',23, 65, 6.3);
-var seaTac = new store('Seatac',3, 24, 1.2);
-var seattleCenter = new store('Seattle Center',11, 38, 3.7);
-var capitolHill = new store('Capital Hill',20, 38, 2.3);
-var alki = new store('Alki', 2, 16, 4.6);
+var firstPike = new Store('First Pike',23, 65, 6.3);
+var seaTac = new Store('Seatac',3, 24, 1.2);
+var seattleCenter = new Store('Seattle Center',11, 38, 3.7);
+var capitolHill = new Store('Capital Hill',20, 38, 2.3);
+var alki = new Store('Alki', 2, 16, 4.6);
 
 var locations = [firstPike,seaTac,seattleCenter,capitolHill,alki];
 
@@ -28,14 +28,14 @@ function makeTable(arr) {
             if(j == 0){
             cell.appendChild(document.createTextNode(arr[i].location));
           } else {
-              cell.appendChild(document.createTextNode(arr[i].hourlySales().toFixed(2)));
+              cell.appendChild(document.createTextNode(arr[i].hourlySales()));
           }
             row.appendChild(cell);
         }
     }
 
-   var target = document.getElementById('target');
-    target.appendChild(fragment);
+   var genTable = document.getElementById('genTable');
+    genTable.appendChild(fragment);
 }
 
 makeTable(locations);
