@@ -1,64 +1,41 @@
-'use strict'
-
-function avgHourReport(location) {
-  for (var i = 600; i <= 2000; i += 100) {
-    var rand = Math.floor(Math.random() * (location.maxCust - location.minCust + 1)) + location.minCust;
-    if (i < 1000) {
-      location.hourReport.push(('0' + i + ' hours:' + rand + 'cookies'))
-    } else {
-      location.hourReport.push((i + ' hours:' + rand + 'cookies'))
-    }
-  }
+function Store (location,min,max,avg){
+  this.location = location;
+  this.minCust = min;
+  this.maxCust = max;
+  this.avgCookies = avg;
+  this.hourlySales = function(){
+  return Math.round((Math.floor(Math.random() * (this.maxCust - this.minCust + 1)) + this.minCust) * this.avgCookies) ;
+  };
 }
 
-var firstPike = {
-  minCust : 23,
-  maxCust : 65,
-  aCookieSale : 6.3,
-  hourReport: [],
-  report: function(){
-    avgHourReport(firstPike);
-  }
-};
+var firstPike = new Store('First Pike',23, 65, 6.3);
+var seaTac = new Store('Seatac',3, 24, 1.2);
+var seattleCenter = new Store('Seattle Center',11, 38, 3.7);
+var capitolHill = new Store('Capital Hill',20, 38, 2.3);
+var alki = new Store('Alki', 2, 16, 4.6);
 
-firstPike.report();
+var locations = [firstPike,seaTac,seattleCenter,capitolHill,alki];
 
-var seaTac = {
-  minCust : 3,99999999999999999999999999999                                    n n      n                      n n n n nn  n nn n n  n n                                                        n              n k,
-  maxCust : 24, ni  bi  iiiiiii iii  i    i
-  aCookieSale : 1.2,
-};
+function makeTable(arr) {
+  var fragment = document.createDocumentFragment();
 
+   for (var i = 0; i < arr.length; i++) {
+        var row = document.createElement('tr');
+        fragment.appendChild(row);
 
-var seattleCenter = {
-  minCust : 11,
-  maxCust : 38,
-  aCookieSale : 3.7,
-};
+       for (var j = 0; j < 16; j++) {
+            var cell = document.createElement('td');
+            if(j == 0){
+            cell.appendChild(document.createTextNode(arr[i].location));
+          } else {
+              cell.appendChild(document.createTextNode(arr[i].hourlySales()));
+          }
+            row.appendChild(cell);
+        }
+    }
 
+   var genTable = document.getElementById('genTable');
+    genTable.appendChild(fragment);
+}
 
-var capitolHill = {
-  minCust : 20,
-  maxCust : 38,
-  aCookieSale : 2.3,
-};
-
-var alkiArr = [];
-
-var alki = {
-  minCust : 2,
-  maxCust : 16,
-  aCookieSale : 4.6,
-  avgCust : ,
-  var hourAvg = alki.avgCust();
-  console.log(hourAvg);
-};
-
-console.log(alkiArr)
-
-
-alki.avgCust = genHourlyCust(alki);
-
-alkiArr.push(alki.avgCust);
-
-console.log(alkiArr);
+makeTable(locations);
