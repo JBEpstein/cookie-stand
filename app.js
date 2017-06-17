@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 function Store (location,min,max,avg){
   this.location = location;
@@ -6,7 +6,7 @@ function Store (location,min,max,avg){
   this.maxCust = max;
   this.avgCookies = avg;
   this.hourlySales = function(){
-  return Math.round((Math.floor(Math.random() * (this.maxCust - this.minCust + 1)) + this.minCust) * this.avgCookies) ;
+    return Math.round((Math.floor(Math.random() * (this.maxCust - this.minCust + 1)) + this.minCust) * this.avgCookies) ;
   };
 }
 
@@ -21,30 +21,30 @@ var locations = [firstPike,seaTac,seattleCenter,capitolHill,alki];
 function makeTable(arr) {
   var fragment = document.createDocumentFragment();
 
-   for (var i = 0; i < arr.length; i++) {
-        var row = document.createElement('tr');
-        fragment.appendChild(row);
-        var total = 0;
+  for (var i = 0; i < arr.length; i++) {
+    var row = document.createElement('tr');
+    fragment.appendChild(row);
+    var total = 0;
 
-       for (var j = 0; j < 16; j++) {
-            var cell = document.createElement('td');
-            if (j == 0){
-            cell.appendChild(document.createTextNode(arr[i].location));
-          } else {
-              var hs = arr[i].hourlySales();
-              cell.appendChild(document.createTextNode(hs));
-              total = total + hs;
-              console.log(total);
-          }
-            row.appendChild(cell);
-        }
-        var cellTotal = document.createElement('td');
-        cellTotal.appendChild(document.createTextNode(total));
-        row.appendChild(cellTotal);
+    for (var j = 0; j < 16; j++) {
+      var cell = document.createElement('td');
+      if (j == 0){
+        cell.appendChild(document.createTextNode(arr[i].location));
+      } else {
+        var hs = arr[i].hourlySales();
+        cell.appendChild(document.createTextNode(hs));
+        total = total + hs;
+        console.log(total);
+      }
+      row.appendChild(cell);
     }
+    var cellTotal = document.createElement('td');
+    cellTotal.appendChild(document.createTextNode(total));
+    row.appendChild(cellTotal);
+  }
 
-   var genTable = document.getElementById('genTable');
-    genTable.appendChild(fragment);
+  var genTable = document.getElementById('genTable');
+  genTable.appendChild(fragment);
 }
 
 makeTable(locations);
@@ -72,8 +72,6 @@ function handleSubmit(event) {
   newStore.hourlySales();
   locations.push(newStore);
   makeTable(locations);
-  genTable.appendChild(newRowEl);
-  //makeRow();
 }
 
 var hoursArray = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm'];
@@ -93,6 +91,5 @@ function clearTable() {
       storeDataEl.textContent = hoursArray[i];
       newRowEl.appendChild(storeDataEl);
     }
-  //genTable.appendChild(newRowEl);
-  };
-}
+  }
+};
