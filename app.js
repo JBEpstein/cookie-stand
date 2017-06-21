@@ -20,6 +20,7 @@ var locations = [firstPike,seaTac,seattleCenter,capitolHill,alki];
 
 function makeTable(arr) {
   var fragment = document.createDocumentFragment();
+  var hourlyTotals = [];
 
   for (var i = 0; i < arr.length; i++) {
     var row = document.createElement('tr');
@@ -34,6 +35,11 @@ function makeTable(arr) {
         var hs = arr[i].hourlySales();
         cell.appendChild(document.createTextNode(hs));
         total = total + hs;
+        if (hourlyTotals[j]) {
+          hourlyTotals[j] = hourlyTotals[j] + hs;
+        } else {
+          hourlyTotals[j] = hs;
+        }
         console.log(total);
       }
       row.appendChild(cell);
@@ -43,16 +49,28 @@ function makeTable(arr) {
     row.appendChild(cellTotal);
   }
 
+  var total = 0;
+  var row = document.createElement('tr');
+  fragment.appendChild(row);
+
+  for (var j = 0; j < 16; j++) {
+    var cell = document.createElement('td');
+    if (j == 0){
+      cell.appendChild(document.createTextNode('Total'));
+    } else {
+      cell.appendChild(document.createTextNode(hourlyTotals[j]));
+      total = total + hourlyTotals[j];
+    }
+    row.appendChild(cell);
+  }
+  var cellTotal = document.createElement('td');
+  cellTotal.appendChild(document.createTextNode(total));
+  row.appendChild(cellTotal);
   var genTable = document.getElementById('genTable');
   genTable.appendChild(fragment);
 }
 
 makeTable(locations);
-
-// function makeRow() {
-//   // document.createElement('tr');
-//   makeRow.appendChild();
-// }
 
 var formEl = document.getElementById('form');
 formEl.addEventListener('submit', handleSubmit);
